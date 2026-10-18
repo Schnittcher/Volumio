@@ -6,51 +6,39 @@
             "caption": "MQTT Topic"
         },
         {
-            "type": "ExpansionPanel",
-            "caption": "Radio Sender",
-            "items": [
-                {
-                    "type": "List",
-                    "name": "RadioSender",
-                    "caption": "Radio Sender",
-                    "rowCount": 5,
-                    "add": true,
-                    "delete": true,
-                    "sort": {
-                        "column": "Name",
-                        "direction": "ascending"
-                    },
-                    "columns": [
-                        {
-                            "caption": "Name",
-                            "name": "Name",
-                            "width": "150px",
-                            "add": "",
-                            "edit": {
-                                "type": "ValidationTextBox"
-                            }
-                        },
-                        {
-                            "caption": "Stream URL",
-                            "name": "StreamURL",
-                            "width": "auto",
-                            "add": "",
-                            "edit": {
-                                "type": "ValidationTextBox"
-                            }
-                        }
-                    ],
-                    "values": []
-                }
-            ]
+            "type": "Label",
+            "caption": "Base topic and device ID of the Volumio MQTT Client plugin, e.g. volumio/<device ID>"
         },
         {
-            "type": "Button",
-            "caption": "Update Radio Sender",
-            "onClick": "VOLUMIO_UpdateRadioSender($id);"
+            "type": "ValidationTextBox",
+            "name": "Host",
+            "caption": "Volumio Host (for lists and cover)"
+        },
+        {
+            "type": "Label",
+            "caption": "Host name or IP address of Volumio. Needed for radio stations, playlists and library, and for covers reported as a relative path."
+        },
+        {
+            "type": "CheckBox",
+            "name": "SendToGroup",
+            "caption": "Send commands to group"
+        },
+        {
+            "type": "ValidationTextBox",
+            "name": "GroupID",
+            "caption": "Group ID"
+        },
+        {
+            "type": "Label",
+            "caption": "Group topic of the plugin: <base topic>/group/<group ID>. Status is still read from the MQTT topic above."
         }
     ],
     "actions": [
+        {
+            "type": "Button",
+            "caption": "Update lists",
+            "onClick": "IPS_RequestAction($id, 'UpdateLists', '');"
+        },
         {
             "type": "Label",
             "caption": "Spenden / Schenkung"

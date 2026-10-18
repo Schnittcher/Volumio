@@ -1,0 +1,470 @@
+<style>
+    .vt-root {
+        font-family: inherit;
+        font-size: inherit;
+        color: var(--content-color);
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .vt-main {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+    .vt-cover {
+        flex: 1 1 auto;
+        min-height: 4em;
+        border-radius: 0.6em;
+        background: color-mix(in srgb, var(--content-color) 10%, transparent) center / contain no-repeat;
+    }
+    .vt-info {
+        text-align: center;
+    }
+    .vt-title {
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .vt-sub {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: color-mix(in srgb, var(--content-color) 70%, transparent);
+        font-size: 0.85em;
+    }
+    .vt-progress {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        font-size: 0.75em;
+    }
+    .vt-bar {
+        flex: 1;
+        height: 0.35em;
+        border-radius: 0.2em;
+        background: color-mix(in srgb, var(--content-color) 20%, transparent);
+        overflow: hidden;
+    }
+    .vt-bar > div {
+        height: 100%;
+        width: 0;
+        background: var(--accent-color);
+    }
+    .vt-buttons, .vt-volume {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+    }
+    .vt-btn {
+        font: inherit;
+        color: var(--content-color);
+        background: color-mix(in srgb, var(--content-color) 10%, transparent);
+        border: none;
+        border-radius: 50%;
+        width: 2.6em;
+        height: 2.6em;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .vt-btn.vt-big {
+        width: 3.2em;
+        height: 3.2em;
+        background: var(--accent-color);
+        color: var(--card-color);
+    }
+    .vt-btn.vt-on {
+        color: var(--accent-color);
+    }
+    .vt-btn svg {
+        width: 55%;
+        height: 55%;
+        fill: currentColor;
+    }
+    .vt-volume input {
+        flex: 1;
+        min-width: 0;
+        accent-color: var(--accent-color);
+    }
+    .vt-tabs {
+        display: flex;
+        gap: 0.35em;
+        overflow-x: auto;
+        scrollbar-width: none;
+        flex: none;
+    }
+    .vt-tabs > :first-child {
+        margin-left: auto;
+    }
+    .vt-tabs > :last-child {
+        margin-right: auto;
+    }
+    .vt-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    .vt-tab {
+        font: inherit;
+        flex: none;
+        white-space: nowrap;
+        color: var(--content-color);
+        background: color-mix(in srgb, var(--content-color) 10%, transparent);
+        border: none;
+        border-radius: 0.3em;
+        padding: 0.25em 1.05em;
+        line-height: 1.3;
+        cursor: pointer;
+    }
+    .vt-tab.vt-active {
+        background: var(--accent-color);
+        color: var(--content-color);
+    }
+    .vt-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6em;
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+    .vt-panel[hidden] {
+        display: none;
+    }
+    .vt-list {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: color-mix(in srgb, var(--content-color) 35%, transparent) transparent;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3em;
+    }
+    .vt-list {
+        padding-right: 0.3em;
+    }
+    .vt-btn[hidden] {
+        display: none;
+    }
+    .vt-list::-webkit-scrollbar {
+        width: 0.5em;
+    }
+    .vt-list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .vt-list::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--content-color) 35%, transparent);
+        border-radius: 0.25em;
+    }
+    .vt-row {
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+        padding: 0.3em 0.5em;
+        border-radius: 0.5em;
+        background: color-mix(in srgb, var(--content-color) 8%, transparent);
+        cursor: pointer;
+    }
+    .vt-row img {
+        width: 2.4em;
+        height: 2.4em;
+        object-fit: cover;
+        border-radius: 0.3em;
+        flex: none;
+    }
+    .vt-row .vt-text {
+        flex: 1;
+        min-width: 0;
+    }
+    .vt-row .vt-text div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .vt-row .vt-text .vt-sub {
+        font-size: 0.75em;
+    }
+    .vt-row .vt-btn {
+        width: 2em;
+        height: 2em;
+        flex: none;
+    }
+    .vt-row.vt-current {
+        outline: 0.12em solid var(--accent-color);
+    }
+    .vt-libhead {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+    }
+    .vt-empty {
+        text-align: center;
+        padding: 1em;
+        font-size: 0.85em;
+        color: color-mix(in srgb, var(--content-color) 70%, transparent);
+    }
+    .vt-offline {
+        text-align: center;
+        font-size: 0.75em;
+        color: #e53935;
+    }
+</style>
+
+<div class="vt-root" id="vt-root">
+    <div class="vt-tabs">
+        <button class="vt-tab vt-active" id="vt-tab-player" data-tab="player"></button>
+        <button class="vt-tab" id="vt-tab-radio" data-tab="radio"></button>
+        <button class="vt-tab" id="vt-tab-library" data-tab="library"></button>
+    </div>
+    <div class="vt-panel" id="vt-panel-radio" hidden>
+        <div class="vt-libhead">
+            <button class="vt-btn" id="vt-radio-back"><svg viewBox="0 0 24 24"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg></button>
+            <div class="vt-title" id="vt-radio-title"></div>
+        </div>
+        <div class="vt-list" id="vt-radio-list"></div>
+    </div>
+    <div class="vt-panel" id="vt-panel-library" hidden>
+        <div class="vt-libhead">
+            <button class="vt-btn" id="vt-back"><svg viewBox="0 0 24 24"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.400-1.400L7.800 13H20z"/></svg></button>
+            <div class="vt-title" id="vt-libtitle"></div>
+        </div>
+        <div class="vt-list" id="vt-lib-list"></div>
+    </div>
+    <div class="vt-panel" id="vt-panel-player">
+    <div class="vt-main">
+        <div class="vt-cover" id="vt-cover"></div>
+        <div class="vt-info">
+            <div class="vt-title" id="vt-title"></div>
+            <div class="vt-sub" id="vt-artist"></div>
+            <div class="vt-sub" id="vt-album"></div>
+        </div>
+        <div class="vt-progress">
+            <span id="vt-pos">0:00</span>
+            <div class="vt-bar"><div id="vt-fill"></div></div>
+            <span id="vt-dur">0:00</span>
+        </div>
+    </div>
+    <div class="vt-buttons">
+        <button class="vt-btn" id="vt-random"><svg viewBox="0 0 24 24"><path d="M10.6 9.2 4 2.6 2.6 4l6.6 6.6 1.4-1.4zM14.5 4l2.5 2.5L2.6 20.9 4 22.3 18.4 7.9 21 10.5V4h-6.5zM14.8 13.4l-1.4 1.4 3.6 3.6-2.5 2.5H21v-6.5l-2.5 2.5-3.7-3.5z"/></svg></button>
+        <button class="vt-btn" id="vt-prev"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+        <button class="vt-btn vt-big" id="vt-play"></button>
+        <button class="vt-btn" id="vt-next"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6v12h2V6z"/></svg></button>
+        <button class="vt-btn" id="vt-repeat"><svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2z"/></svg></button>
+    </div>
+    <div class="vt-volume">
+        <button class="vt-btn" id="vt-mute"></button>
+        <input type="range" id="vt-vol" min="0" max="100" step="1">
+    </div>
+    </div>
+    <div class="vt-offline" id="vt-offline" hidden></div>
+</div>
+
+<script>
+    var vtState = { labels: {} };
+    var vtDragging = false;
+    var vtIconPlay = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    var vtIconPause = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>';
+    var vtIconVolume = '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
+    var vtIconMute = '<svg viewBox="0 0 24 24"><path d="M16.5 12A4.5 4.5 0 0 0 14 8v2.2l2.5 2.5zM19 12c0 .9-.2 1.8-.5 2.5l1.5 1.5A9 9 0 0 0 21 12a9 9 0 0 0-7-8.8v2.1c2.9.9 5 3.5 5 6.7zM4.3 3 3 4.3 7.7 9H3v6h4l5 5v-6.7l4.3 4.3c-.7.5-1.400.9-2.300 1.200v2.100c1.400-.3 2.600-1 3.700-1.800l2 2L21 19.700l-9-9zM12 4 9.900 6.100 12 8.200z"/></svg>';
+
+    function vtTime(seconds) {
+        seconds = Math.max(0, seconds | 0);
+        return (seconds / 60 | 0) + ':' + ('0' + seconds % 60).slice(-2);
+    }
+
+    function vtFit() {
+        var style = window.getComputedStyle(document.body);
+        var top = parseFloat(style.marginTop) || 0;
+        var bottom = parseFloat(style.marginBottom) || 0;
+        document.getElementById('vt-root').style.height = (window.innerHeight - top - bottom) + 'px';
+    }
+
+    function vtRender() {
+        var s = vtState, l = s.labels || {};
+        document.getElementById('vt-title').textContent = s.title || l.nothing || '';
+        document.getElementById('vt-artist').textContent = s.artist || '';
+        document.getElementById('vt-album').textContent = s.album || '';
+        document.getElementById('vt-cover').style.backgroundImage = s.cover ? 'url(' + s.cover + ')' : 'none';
+        document.getElementById('vt-pos').textContent = vtTime(s.position);
+        document.getElementById('vt-dur').textContent = vtTime(s.duration);
+        document.getElementById('vt-fill').style.width = (s.duration > 0 ? Math.min(100, s.position / s.duration * 100) : 0) + '%';
+        var play = document.getElementById('vt-play');
+        play.innerHTML = s.state === 'play' ? vtIconPause : vtIconPlay;
+        play.title = s.state === 'play' ? l.pause : l.play;
+        document.getElementById('vt-prev').title = l.previous || '';
+        document.getElementById('vt-next').title = l.next || '';
+        var random = document.getElementById('vt-random');
+        random.title = l.random || '';
+        random.classList.toggle('vt-on', !!s.random);
+        var repeat = document.getElementById('vt-repeat');
+        repeat.title = l.repeat || '';
+        repeat.classList.toggle('vt-on', !!s.repeat);
+        var mute = document.getElementById('vt-mute');
+        mute.innerHTML = s.mute ? vtIconMute : vtIconVolume;
+        mute.title = l.mute || '';
+        mute.classList.toggle('vt-on', !!s.mute);
+        if (!vtDragging) {
+            document.getElementById('vt-vol').value = s.volume || 0;
+        }
+        var offline = document.getElementById('vt-offline');
+        offline.hidden = s.online !== false;
+        offline.textContent = l.offline || '';
+    }
+
+    var vtTab = 'player';
+    var vtLeafTypes = ['song', 'webradio', 'mywebradio', 'title'];
+    var vtPlayableTypes = ['song', 'webradio', 'mywebradio', 'title', 'folder', 'album', 'artist', 'playlist', 'play-playlist'];
+    var vtBrowsers = {
+        radio: { root: 'radio', stack: [], titles: [], currentTitle: '', current: null, pending: null, list: 'vt-radio-list', title: 'vt-radio-title', back: 'vt-radio-back' },
+        library: { root: '', stack: [], titles: [], currentTitle: '', current: null, pending: null, list: 'vt-lib-list', title: 'vt-libtitle', back: 'vt-back' }
+    };
+
+    function vtRow(item, onClick, onPlay, current) {
+        var row = document.createElement('div');
+        row.className = 'vt-row' + (current ? ' vt-current' : '');
+        if (item.albumart) {
+            var img = document.createElement('img');
+            img.src = item.albumart;
+            img.loading = 'lazy';
+            row.appendChild(img);
+        }
+        var text = document.createElement('div');
+        text.className = 'vt-text';
+        var title = document.createElement('div');
+        title.textContent = item.title || '';
+        text.appendChild(title);
+        if (item.artist) {
+            var sub = document.createElement('div');
+            sub.className = 'vt-sub';
+            sub.textContent = item.artist;
+            text.appendChild(sub);
+        }
+        row.appendChild(text);
+        if (onPlay) {
+            var play = document.createElement('button');
+            play.className = 'vt-btn';
+            play.innerHTML = vtIconPlay;
+            play.title = (vtState.labels || {}).play_item || '';
+            play.onclick = function (event) { event.stopPropagation(); onPlay(); };
+            row.appendChild(play);
+        }
+        row.onclick = onClick;
+        return row;
+    }
+
+    function vtEmpty(text) {
+        var empty = document.createElement('div');
+        empty.className = 'vt-empty';
+        empty.textContent = text;
+        return empty;
+    }
+
+    function vtBrowse(name, uri, push, title) {
+        var b = vtBrowsers[name];
+        if (push && b.current !== null) {
+            b.stack.push(b.current.uri);
+            b.titles.push(b.currentTitle);
+            b.currentTitle = title || '';
+        }
+        b.pending = uri;
+        var list = document.getElementById(b.list);
+        list.textContent = '';
+        list.appendChild(vtEmpty((vtState.labels || {}).loading || ''));
+        requestAction('Browse', uri);
+    }
+
+    function vtRenderBrowse(name, browse) {
+        var b = vtBrowsers[name];
+        b.current = browse;
+        b.pending = null;
+        var list = document.getElementById(b.list);
+        list.textContent = '';
+        var l = vtState.labels || {};
+        document.getElementById(b.title).textContent = b.stack.length === 0 ? (name === 'radio' ? l.tabRadio : l.tabLibrary) : b.currentTitle;
+        document.getElementById(b.back).hidden = b.stack.length === 0;
+        if (browse.items.length === 0) {
+            list.appendChild(vtEmpty(l.noList || ''));
+            return;
+        }
+        browse.items.forEach(function (item) {
+            var leaf = vtLeafTypes.indexOf(item.type) !== -1;
+            var playable = vtPlayableTypes.indexOf(item.type) !== -1;
+            var play = function () {
+                requestAction('PlayItem', JSON.stringify({ service: item.service, uri: item.uri, title: item.title, type: item.type }));
+            };
+            var open = leaf ? play : function () { vtBrowse(name, item.uri, true, item.title); };
+            list.appendChild(vtRow(item, open, playable ? play : null, false));
+        });
+    }
+
+    function vtShowTab(tab) {
+        vtTab = tab;
+        ['player', 'radio', 'library'].forEach(function (name) {
+            document.getElementById('vt-panel-' + name).hidden = name !== tab;
+            document.getElementById('vt-tab-' + name).classList.toggle('vt-active', name === tab);
+        });
+        if (vtBrowsers[tab] && vtBrowsers[tab].current === null && vtBrowsers[tab].pending === null) {
+            vtBrowse(tab, vtBrowsers[tab].root, false);
+        }
+    }
+
+    function vtRenderStatic() {
+        var l = vtState.labels || {};
+        document.getElementById('vt-tab-player').textContent = l.tabPlayer || '';
+        document.getElementById('vt-tab-radio').textContent = l.tabRadio || '';
+        document.getElementById('vt-tab-library').textContent = l.tabLibrary || '';
+        document.getElementById('vt-back').title = l.back || '';
+        document.getElementById('vt-radio-back').title = l.back || '';
+    }
+
+    function handleMessage(data) {
+        var update = JSON.parse(data);
+        for (var key in update) {
+            vtState[key] = update[key];
+        }
+        vtRenderStatic();
+        vtRender();
+        if (update.browse) {
+            for (var name in vtBrowsers) {
+                if (vtBrowsers[name].pending === update.browse.uri) {
+                    vtRenderBrowse(name, update.browse);
+                }
+            }
+        }
+    }
+
+    ['player', 'radio', 'library'].forEach(function (name) {
+        document.getElementById('vt-tab-' + name).onclick = function () { vtShowTab(name); };
+    });
+    Object.keys(vtBrowsers).forEach(function (name) {
+        document.getElementById(vtBrowsers[name].back).onclick = function () {
+            var uri = vtBrowsers[name].stack.pop();
+            vtBrowsers[name].currentTitle = vtBrowsers[name].titles.pop() || '';
+            vtBrowse(name, uri === undefined ? vtBrowsers[name].root : uri, false);
+        };
+    });
+
+    document.getElementById('vt-play').onclick = function () {
+        requestAction('Volumio_Controls', vtState.state === 'play' ? 3 : 2);
+    };
+    document.getElementById('vt-prev').onclick = function () { requestAction('Volumio_Controls', 1); };
+    document.getElementById('vt-next').onclick = function () { requestAction('Volumio_Controls', 5); };
+    document.getElementById('vt-random').onclick = function () { requestAction('Volumio_Random', !vtState.random); };
+    document.getElementById('vt-repeat').onclick = function () { requestAction('Volumio_Repeat', !vtState.repeat); };
+    document.getElementById('vt-mute').onclick = function () { requestAction('Volumio_Mute', !vtState.mute); };
+    var vtVol = document.getElementById('vt-vol');
+    vtVol.oninput = function () { vtDragging = true; };
+    vtVol.onchange = function () {
+        vtDragging = false;
+        requestAction('Volumio_Volume', parseInt(vtVol.value, 10));
+    };
+    window.addEventListener('resize', vtFit);
+    vtFit();
+</script>

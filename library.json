@@ -1,9 +1,9 @@
 {
     "id": "{5025B634-1EAA-3412-96B0-179CCF6A7D97}",
     "author": "Kai Schnittcher",
-    "name": "IPS-Volumio",
-    "url": "https://github.com/Schnittcher/IPS-Volumio",
-    "version": "1.1.1",
+    "name": "Volumio",
+    "url": "https://github.com/Schnittcher/Volumio",
+    "version": "2.0",
     "build": 0,
     "date": 0
 }
