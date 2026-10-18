@@ -51,8 +51,9 @@ class Volumio extends IPSModuleStrict
         $this->EnableAction('Volumio_RadioStation');
         $this->EnableAction('Volumio_Playlist');
 
-        //Kachel-Visualisierung, unter Symcon 9.0 ohne Vollbildtyp
-        $this->SetVisualizationType(defined('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN') ? INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN : INSTANCE_VISUALIZATION_TYPE_HTML);
+        //Kachel-Visualisierung, unter Symcon 9.0 ohne Vollbildtyp. Die Konstanten für den Kachel-Typ gibt es erst ab 9.1,
+        //auf 9.0 fehlt auch INSTANCE_VISUALIZATION_TYPE_HTML, deshalb steht für HTML der Wert 1.
+        $this->SetVisualizationType(defined('INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN') ? INSTANCE_VISUALIZATION_TYPE_HTML_FULLSCREEN : 1);
     }
 
     public function ApplyChanges(): void
