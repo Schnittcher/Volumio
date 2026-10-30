@@ -4,6 +4,5 @@
 libs/composer.*
 libs/phpunit.*
 docs/FORUM_POST.md
-docs/FORUM_CHANGELOG.md
 docs/adr/
 Thumbs.db
